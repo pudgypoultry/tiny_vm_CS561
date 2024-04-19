@@ -22,6 +22,17 @@ class SumsTransformer(lark.Transformer):
     passed a lark.Token structure.
     """
 
+    def __init__(self, write_to_file: bool, file_name: str):
+        self.write_to_file = write_to_file
+        self.file_name = file_name
+        self.file_to_write_to = "lol"
+        if(self.write_to_file):
+            self.file_to_write_to = open(f"{file_name}.asm", "w")
+            self.file_to_write_to.write(f".class {file_name}:Obj\n.method $constructor\n")
+            self.file_to_write_to.close()
+            self.file_to_write_to = open(f"{file_name}.asm", "a")
+
+
     def NUMBER(self, data):
         """Terminal symbol, a regular expression in the grammar"""
         log.debug(f"Processing token NUMBER with {data}")
@@ -36,10 +47,16 @@ class SumsTransformer(lark.Transformer):
         by the NUMBER method above.
         """
         log.debug(f"Processing 'number' with {children}")
+        log.debug(f"const {children[0]}")
+        if(self.write_to_file):
+            self.file_to_write_to.write(f"\tconst {children[0]}\n")
         return children[0]
 
     def plus(self, children):
         log.debug(f"Processing 'plus' with {children}")
+        log.debug(f"call Int:plus")
+        if(self.write_to_file):
+            self.file_to_write_to.write(f"\tcall Int:plus\n")
         # Note the token '+' is not one of the children;
         # that's why I told Lark to represent the node as 'plus'
         left, right = children
@@ -47,9 +64,30 @@ class SumsTransformer(lark.Transformer):
 
     def minus(self, children):
         log.debug(f"Processing 'minus' with {children}")
+        log.debug(f"call Int:minus")
+        if(self.write_to_file):
+            self.file_to_write_to.write(f"\tcall Int:minus\n")
         # See 'plus' above.  Same deal.
         left, right = children
         return grammar_ast.Minus(left, right)
+
+    def multiply(self, children):
+        log.debug(f"Processing 'multiply' with {children}")
+        log.debug(f"call Int:multiply")
+        if(self.write_to_file):
+            self.file_to_write_to.write(f"\tcall Int:multiply\n")
+        # See 'plus' above.  Same deal.
+        left, right = children
+        return grammar_ast.Multiply(left, right)
+
+    def divide(self, children):
+        log.debug(f"Processing 'divide' with {children}")
+        log.debug(f"call Int:divide")
+        if(self.write_to_file):
+            self.file_to_write_to.write(f"\tcall Int:divide\n")
+        # See 'plus' above.  Same deal.
+        left, right = children
+        return grammar_ast.Divide(left, right)
 
     def sum(self, children):
         """Note we have renamed the recursive cases to 'plus' and 'minus',

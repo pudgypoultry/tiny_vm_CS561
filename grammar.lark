@@ -16,10 +16,8 @@ seq: seq sum ";" -> seq_more
 
 sum:  sum "+" number -> plus
     | sum "-" number -> minus
-    | number
-
-product: product "*" number -> multiply
-    | product "/" number -> divide
+    | sum "*" number -> multiply
+    | sum "/" number -> divide
     | number
 
 // The real BNF portion of the grammar is all above.  What follows
