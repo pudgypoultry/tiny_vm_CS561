@@ -10,16 +10,40 @@
 // Sequence of one or more sums, expressed with left recursion
 seq: seq sum ";" -> seq_more
     | sum ";"    -> seq_one
+<<<<<<< Updated upstream
+=======
+    | product ";" -> seq_one
+    | seq product ";" -> seq_more
+>>>>>>> Stashed changes
 
 // In the following, we specify that the parse tree should have nodes
 // labeled 'plus' and 'minus' rather than 'sum'
 
+<<<<<<< Updated upstream
 sum:  sum "+" number -> plus
     | sum "-" number -> minus
     | sum "*" number -> multiply
     | sum "/" number -> divide
     | number
 
+=======
+// sum:  sum "+" number -> plus
+//     | sum "-" number -> minus
+//     | number
+// 
+// product: product "*" sum -> multiply
+//     | product "/" sum  -> divide
+//     | sum
+
+product: product "*" number -> multiply
+    | product "/" number -> divide
+    | number
+
+sum: sum "+" product -> plus
+    | sum "-" product -> minus
+    | product
+
+>>>>>>> Stashed changes
 // The real BNF portion of the grammar is all above.  What follows
 // is the lexical structure, which is matched in a completely different
 // way.  We'll begin by importing a standard Lark pattern for ignoring whitespace

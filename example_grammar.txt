@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 
 5 * 2 + 3;
 
 2 + 3 * 5;
+=======
+2 + 2 * 8 / 4 - 1;
+>>>>>>> Stashed changes

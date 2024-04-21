@@ -27,7 +27,11 @@ class SumsTransformer(lark.Transformer):
         self.file_name = file_name
         self.file_to_write_to = "lol"
         if(self.write_to_file):
+<<<<<<< Updated upstream
             self.file_to_write_to = open(f"{file_name}.asm", "w")
+=======
+            self.file_to_write_to = open(f"unit_tests/{file_name}.asm", "w")
+>>>>>>> Stashed changes
             self.file_to_write_to.write(f".class {file_name}:Obj\n.method $constructor\n")
             self.file_to_write_to.close()
             self.file_to_write_to = open(f"{file_name}.asm", "a")
@@ -97,6 +101,13 @@ class SumsTransformer(lark.Transformer):
         log.debug(f"Processing sum base case {children}")
         return children[0]
 
+<<<<<<< Updated upstream
+=======
+    def product(self, children):
+        log.debug(f"Processing sum base case {children}")
+        return children[0]
+
+>>>>>>> Stashed changes
     def seq_one(self, children):
         """This will always be the first reduction to seq"""
         log.debug(f"Processing sequence (base case) with {children}")

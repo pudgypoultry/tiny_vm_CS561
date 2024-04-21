@@ -1,0 +1,26 @@
+{
+    "class_name": "testing",
+    "super": "Obj",
+    "imports": [
+        "testing",
+        "Obj"
+    ],
+    "methods": [
+        "$constructor",
+        "string",
+        "print",
+        "equals"
+    ],
+    "fields": [],
+    "n_fields": 0,
+    "n_methods": 4,
+    "n_inherited": 4,
+    "constants": [],
+    "code": [
+        {
+            "name": "$constructor",
+            "slot": 0,
+            "code": []
+        }
+    ]
+}

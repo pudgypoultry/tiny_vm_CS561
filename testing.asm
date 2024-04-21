@@ -1,0 +1,20 @@
+.class testing:Obj
+.method $constructor
+	const 2
+	const 2
+	const 8
+	call Int:multiply
+	const 4
+	call Int:divide
+	call Int:plus
+	const 1
+	call Int:minus
+	const 2
+	const 2
+	const 8
+	call Int:multiply
+	const 4
+	call Int:divide
+	call Int:plus
+	const 1
+	call Int:minus
