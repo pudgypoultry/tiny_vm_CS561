@@ -184,7 +184,6 @@ class Seq(ASTNode):
     def __repr__(self):
         return f"seq({repr(self.sums)})"
 
-
 def smoke_test_sums():
     sum1 = Plus(1, Minus(2, 3))
     sum2 = Minus(2, 1)
