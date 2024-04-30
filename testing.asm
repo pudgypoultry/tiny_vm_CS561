@@ -1,0 +1,22 @@
+.class testing:Obj
+.method $constructor
+	const 5
+	const 2
+	call Int:multiply
+	const 3
+	call Int:plus
+	const 2
+	const 3
+	call Int:plus
+	const 5
+	call Int:multiply
+	const 5
+	const 2
+	call Int:multiply
+	const 3
+	call Int:plus
+	const 2
+	const 3
+	const 5
+	call Int:multiply
+	call Int:plus
