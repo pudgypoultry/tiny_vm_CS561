@@ -1,0 +1,89 @@
+//# Lark grammar for sums.  Note this is the "concrete syntax", which describes
+//# a tree (the "parse tree") but not the tree we want (the "abstract syntax tree").
+//#
+//# Also of note:  Lark documentation says you can use # for comments, but as of 2023-09
+//# it's a lie; you have to use //.   There are too many lies in the Lark documentation.
+//#
+
+// ================================================
+
+%import common.WS
+%ignore WS
+
+// Using code shared from Slack and from quack_grammar.pdf as an example to build from
+
+program: (class)* (expr)*
+
+class: class_signature class_body
+
+class_signature: CLASS ident "(" formal_args ")" [ EXTENDS ident ]
+formal_args: [ ident : ( , ident : ident)* ]
+
+class_body: "{" (statement)* (method)* "}"
+
+method: DEF ident "(" formal_args ")" [ : ident ] statement_block
+
+statement_block: { (statement)* }
+
+statement: IF r_expr statement_block (ELIF r_expr statement_block)* [ELSE statement_block]
+    | WHILE r_expr statement_block
+    | l_expr [: ident] = r_expr ";"
+    | r_expr ";"
+    | RETURN [ r_expr ] ";"
+    | typecase
+
+typecase: TYPECASE r_expr "{" (type_alternative)* "}"
+
+type_alternative: ident ":" ident statement_block
+
+l_expr: ident
+    | r_expr . ident
+
+r_expr: string_literal
+    | int_literal
+    | l_expr
+    | r_expr PLUS r_expr
+    | r_expr MINUS r_expr
+    | r_expr MULTIPLY r_expr
+    | r_expr DIVIDE r_expr
+    | MINUS r_expr
+    | "(" r_expr ")"
+    | r_expr EQ r_expr
+    | r_expr LTEQ r_expr
+    | r_expr LT r_expr
+    | r_expr GTEQ r_expr
+    | r_expr GT r_expr
+    | r_expr AND r_expr
+    | r_expr OR r_expr
+    | NOT r_expr
+    | r_expr "." ident "(" actual_args ")"
+    | ident "(" actual_args ")"
+
+actual_args: [ r_expr (","  r_expr)*]
+
+
+string: STRING
+number: NUMBER
+ident: IDENT
+
+NUMBER: /[0-9]+/
+STRING: /"[a-zA-Z0-9]+"/
+IDENT: /[a-zA-Z][a-zA-Z0-9]*/
+TYPECASE: "typecase"
+PLUS: "+"
+MINUS: "-"
+MULTIPLY: "*"
+DIVIDE: "/"
+EQ: "=="
+LTEQ: "<="
+LT: "<"
+GTEQ: ">="
+GT: ">"
+AND: "and"
+OR: "or"
+NOT: "not"
+IF: "if"
+ELIF: "elif"
+ELSE: "else"
+WHILE: "while"
+RETURN: "return"
