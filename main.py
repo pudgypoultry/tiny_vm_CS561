@@ -17,6 +17,17 @@ def main():
         print("\tor")
         print("\t'main.py [file you wish to parse] [name of output .asm file]' to write output as .asm file")
 
+<<<<<<< Updated upstream
+=======
+        print("Intiating test case")
+        gram_file = open("grammar.lark", "r")
+        parser = lark.Lark(gram_file, parser="lalr")
+        src_file = open("example_grammar.txt", "r")
+        src_text = "".join(src_file.readlines())
+        concrete = parser.parse(src_text)
+        print("Parse tree (concrete syntax):")
+        print(concrete.pretty())
+>>>>>>> Stashed changes
         return
 
     gram_file = open("grammar.lark", "r")

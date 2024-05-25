@@ -7,16 +7,26 @@
 
 // ================================================
 
+<<<<<<< Updated upstream
 %import common.WS
 %ignore WS
 
 // Using code shared from Slack and from quack_grammar.pdf as an example to build from
 
 program: (class)* (expr)*
+=======
+
+// Using code shared from Slack and from quack_grammar.pdf as an example to build from
+
+start: program
+
+program: (class)* (statement)*
+>>>>>>> Stashed changes
 
 class: class_signature class_body
 
 class_signature: CLASS ident "(" formal_args ")" [ EXTENDS ident ]
+<<<<<<< Updated upstream
 formal_args: [ ident : ( , ident : ident)* ]
 
 class_body: "{" (statement)* (method)* "}"
@@ -28,6 +38,19 @@ statement_block: { (statement)* }
 statement: IF r_expr statement_block (ELIF r_expr statement_block)* [ELSE statement_block]
     | WHILE r_expr statement_block
     | l_expr [: ident] = r_expr ";"
+=======
+formal_args: [ ident ":" ("," ident ":" ident)* ]
+
+class_body: "{" (statement)* (method)* "}"
+
+method: DEF ident "(" formal_args ")" [ ":" ident ] statement_block
+
+statement_block: "{" (statement)* "}"
+
+statement: IF r_expr statement_block (ELIF r_expr statement_block)* [ELSE statement_block]
+    | WHILE r_expr statement_block
+    | l_expr [":" ident] "=" r_expr ";"
+>>>>>>> Stashed changes
     | r_expr ";"
     | RETURN [ r_expr ] ";"
     | typecase
@@ -37,6 +60,7 @@ typecase: TYPECASE r_expr "{" (type_alternative)* "}"
 type_alternative: ident ":" ident statement_block
 
 l_expr: ident
+<<<<<<< Updated upstream
     | r_expr . ident
 
 r_expr: string_literal
@@ -58,27 +82,69 @@ r_expr: string_literal
     | NOT r_expr
     | r_expr "." ident "(" actual_args ")"
     | ident "(" actual_args ")"
+=======
+    | r_expr "." ident
+
+r_expr: string_literal
+    | l_expr
+    | "(" r_expr ")"
+    | r_expr EQ r_expr                      -> equality
+    | r_expr LTEQ r_expr                    -> lessthan_equalto
+    | r_expr LT r_expr                      -> lessthan
+    | r_expr GTEQ r_expr                    -> greaterthan_equalto
+    | r_expr GT r_expr                      -> greaterthan
+    | r_expr AND r_expr                     -> bool_and
+    | r_expr OR r_expr                      -> bool_or
+    | NOT r_expr                            -> bool_not
+    | r_expr "." ident "(" actual_args ")"  -> function_call
+    | ident "(" actual_args ")"             -> field_reference
+    | sum
+    | MINUS sum                         -> times_negative_one
+
+
+product: product MULTIPLY int_literal       -> multiply
+    | product DIVIDE int_literal            -> divide
+    | int_literal
+
+sum: sum PLUS product -> plus
+    | sum MINUS product -> minus
+    | product
+>>>>>>> Stashed changes
 
 actual_args: [ r_expr (","  r_expr)*]
 
 
+<<<<<<< Updated upstream
 string: STRING
 number: NUMBER
+=======
+string_literal: STRING
+int_literal: NUMBER
+>>>>>>> Stashed changes
 ident: IDENT
 
 NUMBER: /[0-9]+/
 STRING: /"[a-zA-Z0-9]+"/
 IDENT: /[a-zA-Z][a-zA-Z0-9]*/
+<<<<<<< Updated upstream
 TYPECASE: "typecase"
+=======
+
+>>>>>>> Stashed changes
 PLUS: "+"
 MINUS: "-"
 MULTIPLY: "*"
 DIVIDE: "/"
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 EQ: "=="
 LTEQ: "<="
 LT: "<"
 GTEQ: ">="
 GT: ">"
+<<<<<<< Updated upstream
 AND: "and"
 OR: "or"
 NOT: "not"
@@ -87,3 +153,25 @@ ELIF: "elif"
 ELSE: "else"
 WHILE: "while"
 RETURN: "return"
+=======
+
+AND: "and"
+OR: "or"
+NOT: "not"
+
+IF: "if"
+ELIF: "elif"
+ELSE: "else"
+
+WHILE: "while"
+
+DEF: "def"
+RETURN: "return"
+
+TYPECASE: "typecase"
+EXTENDS: "extends"
+CLASS: "class"
+
+%import common.WS
+%ignore WS
+>>>>>>> Stashed changes

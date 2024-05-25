@@ -3,8 +3,12 @@
     "super": "Obj",
     "imports": [
         "testing",
+<<<<<<< Updated upstream
         "Obj",
         "Int"
+=======
+        "Obj"
+>>>>>>> Stashed changes
     ],
     "methods": [
         "$constructor",
@@ -16,6 +20,7 @@
     "n_fields": 0,
     "n_methods": 4,
     "n_inherited": 4,
+<<<<<<< Updated upstream
     "constants": [
         {
             "kind": "i",
@@ -42,10 +47,14 @@
             "value": "5"
         }
     ],
+=======
+    "constants": [],
+>>>>>>> Stashed changes
     "code": [
         {
             "name": "$constructor",
             "slot": 0,
+<<<<<<< Updated upstream
             "code": [
                 1,
                 0,
@@ -68,6 +77,9 @@
                 2,
                 5
             ]
+=======
+            "code": []
+>>>>>>> Stashed changes
         }
     ]
 }

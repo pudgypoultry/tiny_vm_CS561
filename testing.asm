@@ -1,5 +1,6 @@
 .class testing:Obj
 .method $constructor
+<<<<<<< Updated upstream
 	const 5
 	const 2
 	call Int:multiply
@@ -20,3 +21,23 @@
 	const 5
 	call Int:multiply
 	call Int:plus
+=======
+	const 2
+	const 2
+	const 8
+	call Int:multiply
+	const 4
+	call Int:divide
+	call Int:plus
+	const 1
+	call Int:minus
+	const 2
+	const 2
+	const 8
+	call Int:multiply
+	const 4
+	call Int:divide
+	call Int:plus
+	const 1
+	call Int:minus
+>>>>>>> Stashed changes

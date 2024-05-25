@@ -1,5 +1,6 @@
 .class testing:Obj
 .method $constructor
+<<<<<<< Updated upstream
 	const 2
 	const 2
 	const 8
@@ -13,3 +14,5 @@
 	const 1
 	call Int:minus
 	pop
+=======
+>>>>>>> Stashed changes
