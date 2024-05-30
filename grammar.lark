@@ -7,39 +7,17 @@
 
 // ================================================
 
-<<<<<<< Updated upstream
-%import common.WS
-%ignore WS
 
 // Using code shared from Slack and from quack_grammar.pdf as an example to build from
 
-program: (class)* (expr)*
-=======
-
-// Using code shared from Slack and from quack_grammar.pdf as an example to build from
-
-start: program
+?start: program
 
 program: (class)* (statement)*
->>>>>>> Stashed changes
 
 class: class_signature class_body
 
 class_signature: CLASS ident "(" formal_args ")" [ EXTENDS ident ]
-<<<<<<< Updated upstream
-formal_args: [ ident : ( , ident : ident)* ]
-
-class_body: "{" (statement)* (method)* "}"
-
-method: DEF ident "(" formal_args ")" [ : ident ] statement_block
-
-statement_block: { (statement)* }
-
-statement: IF r_expr statement_block (ELIF r_expr statement_block)* [ELSE statement_block]
-    | WHILE r_expr statement_block
-    | l_expr [: ident] = r_expr ";"
-=======
-formal_args: [ ident ":" ("," ident ":" ident)* ]
+formal_args: [ ident ":" ident ("," ident ":" ident)* ]
 
 class_body: "{" (statement)* (method)* "}"
 
@@ -49,8 +27,7 @@ statement_block: "{" (statement)* "}"
 
 statement: IF r_expr statement_block (ELIF r_expr statement_block)* [ELSE statement_block]
     | WHILE r_expr statement_block
-    | l_expr [":" ident] "=" r_expr ";"
->>>>>>> Stashed changes
+    | l_expr [":" ident] ASSIGNMENT r_expr ";"
     | r_expr ";"
     | RETURN [ r_expr ] ";"
     | typecase
@@ -60,29 +37,6 @@ typecase: TYPECASE r_expr "{" (type_alternative)* "}"
 type_alternative: ident ":" ident statement_block
 
 l_expr: ident
-<<<<<<< Updated upstream
-    | r_expr . ident
-
-r_expr: string_literal
-    | int_literal
-    | l_expr
-    | r_expr PLUS r_expr
-    | r_expr MINUS r_expr
-    | r_expr MULTIPLY r_expr
-    | r_expr DIVIDE r_expr
-    | MINUS r_expr
-    | "(" r_expr ")"
-    | r_expr EQ r_expr
-    | r_expr LTEQ r_expr
-    | r_expr LT r_expr
-    | r_expr GTEQ r_expr
-    | r_expr GT r_expr
-    | r_expr AND r_expr
-    | r_expr OR r_expr
-    | NOT r_expr
-    | r_expr "." ident "(" actual_args ")"
-    | ident "(" actual_args ")"
-=======
     | r_expr "." ident
 
 r_expr: string_literal
@@ -95,6 +49,10 @@ r_expr: string_literal
     | r_expr GT r_expr                      -> greaterthan
     | r_expr AND r_expr                     -> bool_and
     | r_expr OR r_expr                      -> bool_or
+    | r_expr PLUS r_expr
+    | r_expr MINUS r_expr
+    | r_expr MULTIPLY r_expr
+    | r_expr DIVIDE r_expr
     | NOT r_expr                            -> bool_not
     | r_expr "." ident "(" actual_args ")"  -> function_call
     | ident "(" actual_args ")"             -> field_reference
@@ -109,51 +67,29 @@ product: product MULTIPLY int_literal       -> multiply
 sum: sum PLUS product -> plus
     | sum MINUS product -> minus
     | product
->>>>>>> Stashed changes
 
 actual_args: [ r_expr (","  r_expr)*]
 
 
-<<<<<<< Updated upstream
-string: STRING
-number: NUMBER
-=======
 string_literal: STRING
 int_literal: NUMBER
->>>>>>> Stashed changes
 ident: IDENT
 
 NUMBER: /[0-9]+/
-STRING: /"[a-zA-Z0-9]+"/
-IDENT: /[a-zA-Z][a-zA-Z0-9]*/
-<<<<<<< Updated upstream
-TYPECASE: "typecase"
-=======
+STRING: /"(.)+"/
+IDENT: /[a-zA-Z_][a-zA-Z0-9_]*/
 
->>>>>>> Stashed changes
 PLUS: "+"
 MINUS: "-"
 MULTIPLY: "*"
 DIVIDE: "/"
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
+ASSIGNMENT: "="
 EQ: "=="
 LTEQ: "<="
 LT: "<"
 GTEQ: ">="
 GT: ">"
-<<<<<<< Updated upstream
-AND: "and"
-OR: "or"
-NOT: "not"
-IF: "if"
-ELIF: "elif"
-ELSE: "else"
-WHILE: "while"
-RETURN: "return"
-=======
 
 AND: "and"
 OR: "or"
@@ -174,4 +110,3 @@ CLASS: "class"
 
 %import common.WS
 %ignore WS
->>>>>>> Stashed changes

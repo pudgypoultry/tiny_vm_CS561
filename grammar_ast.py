@@ -1,29 +1,13 @@
 """Abstract syntax representation of a sequence of sums."""
 
 import logging
-<<<<<<< Updated upstream
-=======
 from typing import Callable
->>>>>>> Stashed changes
 logging.basicConfig()
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
-<<<<<<< Updated upstream
-# class ASTNode:
-#     """Abstract base class for abstract sequence of sequence of sums"""
-#     def __init__(self):
-#         """This is an abstract class and should not be instantiated"""
-#         this_class = self.__class__.__name__
-#         if this_class == "ASTNode":
-#             raise NotImplementedError("ASTNode is an abstract class and should not be instantiated")
-#         else:
-#             raise NotImplementedError(f"{this_class} is missing a constructor method")
-
-=======
 LB = "{"
 RB = "}"
->>>>>>> Stashed changes
 
 class ASTNode:
     """Abstract base class"""
@@ -32,11 +16,7 @@ class ASTNode:
 
     # Visitor-like functionality for walking over the AST. Define default methods in ASTNode
     # and specific overrides in node types in which the visitor should do something
-<<<<<<< Updated upstream
-    def walk(self, visit_state, pre_visit: Callable =ignore, post_visit: Callable=ignore):
-=======
     def walk(self, visit_state, pre_visit: Callable, post_visit: Callable):
->>>>>>> Stashed changes
         pre_visit(self, visit_state)
         for child in flatten(self.children):
             log.debug(f"Visiting ASTNode of class {child.__class__.__name__}")
@@ -50,12 +30,9 @@ class ASTNode:
     def method_table_visit(self, visit_state: dict):
         ignore(self, visit_state)
 
-<<<<<<< Updated upstream
-=======
-    def ignore():
-        pass
+    # def ignore():
+    #     pass
 
->>>>>>> Stashed changes
     def r_eval(self, buffer: list[str]):
         """Evaluate for value, i.e., generate
         code that will result in evaluating an
@@ -79,10 +56,7 @@ class ASTNode:
         """
         raise NotImplementedError(f"No gen_code method for class {self.__class__.__name__}")
 
-<<<<<<< Updated upstream
-=======
     # Leaving this untouched, useful for graphing
->>>>>>> Stashed changes
     ### Visualization ###
     def dot_id(self) -> str:
         """Python's built-in "id" function let's us create unique node IDs"""
@@ -103,9 +77,6 @@ class ASTNode:
             child.to_dot(buffer)
 
 
-<<<<<<< Updated upstream
-class MethodCallNode(ASTNode):
-=======
 class ProgramNode(ASTNode):
 
     def __init__(self, classes: list[ASTNode], main_block: ASTNode):
@@ -236,7 +207,6 @@ class IfNode(ASTNode):
 
 class MethodNode(ASTNode):
 
->>>>>>> Stashed changes
     def __init__(self,
                  name: str,
                  receiver: ASTNode,
@@ -265,99 +235,6 @@ class MethodNode(ASTNode):
         # could itself be an expression.
 
 
-<<<<<<< Updated upstream
-class Plus(MethodCallNode):
-    def __init__(self, name, receiver, actuals):
-        super.__init__("+", receiver, actuals)
-
-
-class Minus(MethodCallNode):
-    def __init__(self, name, receiver, actuals):
-        super.__init__("-", receiver, actuals)
-
-
-class Multiply(MethodCallNode):
-    def __init__(self, name, receiver, actuals):
-        super.__init__("*", receiver, actuals)
-
-
-class Divide(MethodCallNode):
-    def __init__(self, name, receiver, actuals):
-        super.__init__("/", receiver, actuals)
-
-
-class Sum(ASTNode):
-    pass
-
-# A sum is either an integer or a binary operation
-
-class Number(Sum):
-    """Typically some tokens define leaves of the AST.  Leaves of a Sum
-    are integer literals.
-    """
-    def __init__(self, value: int):
-        self.value = value
-
-    def __str__(self):
-        return str(self.value)
-
-    def __repr__(self):
-        return repr(self.value)
-
-
-class AssignmentNode(ASTNode):
-    """Need a way to assign a variable and hold it in memory associated with a value"""
-    def __init__(self, lhs, decl_type, rhs):
-        self.decl_type = decl_type
-        self.lhs = lhs
-        self.rhs = rhs
-        self.children = [self.rhs]
-
-    def __str__(self):
-        if self.decl_type is None:
-            return f"{self.lhs} = {self.rhs}"
-        else:
-            return f"{self.lhs}: {self.decl_type} = {self.rhs}"
-
-    def gen_code(self, buffer: list[str]):
-        """Evaluate rhs, store in lhs"""
-        buffer += self.rhs.r_eval()
-        buffer.append(f"store {self.lhs}")
-
-
-class Seq(ASTNode):
-    """A sequence of sums.  We could represent it in a treelike manner
-    to better match a left-recursive grammar, but we'll instead represent it
-    as a list of sums to illustrate how we can apply a lark transformer to
-    reshape it.
-    """
-    def __init__(self):
-        self.sums: list[Sum] = []
-
-    def append(self, sum: Sum):
-        self.sums.append(sum)
-
-    def __str__(self) -> str:
-        el_strs = ", ".join(str(e) for e in self.sums)
-        return f"[{el_strs}]"
-
-    def __repr__(self):
-        return f"seq({repr(self.sums)})"
-
-
-def smoke_test_sums():
-    sum1 = Plus(1, Minus(2, 3))
-    sum2 = Minus(2, 1)
-    sum3 = Multiply(15, 2)
-    seq = Seq()
-    seq.append(sum1)
-    seq.append(sum2)
-    seq.append(sum3)
-    print(seq)
-
-if __name__ == "__main__":
-    smoke_test_sums()
-=======
 
 class AssignmentNode(ASTNode):
     pass
@@ -409,4 +286,3 @@ class BooleanConditionNode(ASTNode):
 
 if __name__ == "__main__":
     pass
->>>>>>> Stashed changes
