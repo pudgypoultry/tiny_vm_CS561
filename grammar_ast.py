@@ -207,6 +207,16 @@ class IfNode(ASTNode):
 
 class MethodNode(ASTNode):
 
+    def __init__(self, name: str, arguments: list[ASTNode], return_type: str, block: ASTNode):
+        self.name = name 
+        self.formals = arguments
+        self.return_type = return_type
+        self.block = block
+
+    #TODO: Fill out
+
+class MethodCallNode(ASTNode):
+
     def __init__(self,
                  name: str,
                  receiver: ASTNode,
@@ -237,7 +247,19 @@ class MethodNode(ASTNode):
 
 
 class AssignmentNode(ASTNode):
-    pass
+    
+    def __init__(self, name_assigning_to: str, expression_assigned: ASTNode):
+        self.name_assigning_to = name_assigning_to
+        self.expression_assigned = expression_assigned
+        self.children = []
+
+    def __str__(self):
+        actuals = ",".join(str(actual) for actual in self.actuals)
+        return f"{name_assigning_to} = {expression_assigned.__str__()}"
+
+    def gen_code(self, buffer: list[str]):
+        buffer.append(f"find out how to assign \"{self.expression_assigned}\" to {self.name}")
+
 
 
 class ExpressionNode(ASTNode):
@@ -251,7 +273,13 @@ class ExpressionNode(ASTNode):
 
 
 class BareExpressionNode(ASTNode):
-    pass
+    
+    def __init__(self, e):
+        self.e = e
+        self.children = [e]
+
+    def __str__(self):
+        return str(self.e)
 
 
 class ConstNode(ASTNode):

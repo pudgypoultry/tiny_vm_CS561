@@ -17,15 +17,16 @@ program: (class)* (statement)*
 class: class_signature class_body
 
 class_signature: CLASS ident "(" formal_args ")" [ EXTENDS ident ]
+
 formal_args: [ ident ":" ident ("," ident ":" ident)* ]
 
 class_body: "{" (statement)* (method)* "}"
 
-method: DEF ident "(" formal_args ")" [ ":" ident ] statement_block
+method: DEF ident "(" formal_args ")" [ ":" ident ] statement_block                             -> method
 
-statement_block: "{" (statement)* "}"
+statement_block: "{" (statement)* "}"                                                           -> statement
 
-statement: IF r_expr statement_block (ELIF r_expr statement_block)* [ELSE statement_block]
+?statement: IF r_expr statement_block (ELIF r_expr statement_block)* [ELSE statement_block]     -> if_statement
     | WHILE r_expr statement_block
     | l_expr [":" ident] ASSIGNMENT r_expr ";"
     | r_expr ";"
@@ -36,10 +37,10 @@ typecase: TYPECASE r_expr "{" (type_alternative)* "}"
 
 type_alternative: ident ":" ident statement_block
 
-l_expr: ident
-    | r_expr "." ident
+?l_expr: ident
+    | r_expr "." ident                      -> field_reference
 
-r_expr: string_literal
+?r_expr: string_literal
     | l_expr
     | "(" r_expr ")"
     | r_expr EQ r_expr                      -> equality
@@ -49,34 +50,34 @@ r_expr: string_literal
     | r_expr GT r_expr                      -> greaterthan
     | r_expr AND r_expr                     -> bool_and
     | r_expr OR r_expr                      -> bool_or
-    | r_expr PLUS r_expr
-    | r_expr MINUS r_expr
+    | r_expr PLUS r_expr                    -> plus
+    | r_expr MINUS r_expr                   -> minus
     | r_expr MULTIPLY r_expr
     | r_expr DIVIDE r_expr
     | NOT r_expr                            -> bool_not
     | r_expr "." ident "(" actual_args ")"  -> function_call
-    | ident "(" actual_args ")"             -> field_reference
+    | ident "(" actual_args ")"             -> method_call
     | sum
-    | MINUS sum                         -> times_negative_one
+    | MINUS sum                             -> times_negative_one
 
 
-product: product MULTIPLY int_literal       -> multiply
+?product: product MULTIPLY int_literal      -> multiply
     | product DIVIDE int_literal            -> divide
     | int_literal
 
-sum: sum PLUS product -> plus
-    | sum MINUS product -> minus
+?sum: sum PLUS product                      -> plus
+    | sum MINUS product                     -> minus
     | product
 
-actual_args: [ r_expr (","  r_expr)*]
+actual_args: [ r_expr (","  r_expr)* ]
 
 
 string_literal: STRING
 int_literal: NUMBER
 ident: IDENT
 
-NUMBER: /[0-9]+/
-STRING: /"(.)+"/
+NUMBER: /[0-9]+/                      
+STRING: /"([^\n\"\\]*(\\[.\n])*)*"/
 IDENT: /[a-zA-Z_][a-zA-Z0-9_]*/
 
 PLUS: "+"
